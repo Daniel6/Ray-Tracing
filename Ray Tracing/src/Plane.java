@@ -7,10 +7,11 @@ public class Plane implements Intersectable {
 		normal = n;
 	}
 	public Intersection findIntersect(Ray r) {
-		if (r.getDirection().dot(normal) == 0) {
+		double d = r.getDirection().dot(normal);
+		if (d == 0) {
 			return null;
 		}
-		double t = (point.dot(normal) - normal.dot(r.getOrigin())) / r.getDirection().dot(normal);
+		double t = (point.dot(normal) - normal.dot(r.getOrigin())) / d;
 		Vector i = r.getOrigin().add(r.getDirection().mult(t));
 		return new Intersection(t, i, normal);
 	}
@@ -26,5 +27,4 @@ public class Plane implements Intersectable {
 	public void setNormal(Vector normal) {
 		this.normal = normal;
 	}
-	
 }

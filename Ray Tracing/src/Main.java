@@ -6,7 +6,7 @@ public class Main {
 		ArrayList<Intersectable> objects = new ArrayList<Intersectable>();
 		objects.add(new Sphere(new Vector(0,0,0), .1, new Color(255,255,255)));
 		objects.add(new Sphere(new Vector(0, 0, .1), .1, new Color(0,0,0)));
-		//objects.add(new Plane(new Vector(0,0,0), new Vector(0,1,0)));
+		//objects.add(new Plane(new Vector(0,0,0), new Vector(1,0,0)));
 		RGBImage i = new RGBImage(100, 100);
 		for (int row = 0; row < 100; row++) {
 			for (int col = 0; col < 100; col++) {
