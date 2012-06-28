@@ -46,7 +46,7 @@ public class Sphere implements Intersectable {
 		}
 		Vector i = r.getOrigin().add(r.getDirection().mult(t));
 		Vector n = i.sub(center);
-		return new Intersection(t, i, n);
+		return new Intersection(t, i, n, color);
 	}
 	public Vector getCenter() {
 		return center;

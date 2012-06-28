@@ -3,10 +3,18 @@ public class Intersection {
 	Vector intersection;
 	Vector normal;
 	double distance;
-	public Intersection(double t, Vector i, Vector n) {
+	Color color;
+	public Intersection(double t, Vector i, Vector n, Color c) {
 		intersection = i;
 		normal = n;
 		distance = t;
+		color = c;
+	}
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	public double getDistance() {
 		return distance;
