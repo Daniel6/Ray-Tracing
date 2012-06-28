@@ -1,9 +1,9 @@
 
 public class Intersection {
-	Vector intersection;
-	Vector normal;
-	double distance;
-	Color color;
+	private Vector intersection;
+	private Vector normal;
+	private double distance;
+	private Color color;
 	public Intersection(double t, Vector i, Vector n, Color c) {
 		intersection = i;
 		normal = n;

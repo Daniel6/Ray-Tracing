@@ -1,8 +1,8 @@
 
 public class Color {
-	double R;
-	double G;
-	double B;
+	private double R;
+	private double G;
+	private double B;
 	public Color(double iR, double iG, double iB) {
 		R = iR;
 		G = iG;
@@ -19,5 +19,11 @@ public class Color {
 	}
 	public String toString() {
 		return "Color (" + R + "," + G + "," + B + ")";
+	}
+	public Color mult(double d) {
+		return new Color(R * d, G * d, B * d);
+	}
+	public Color mult(Color c) {
+		return new Color(R * c.R, G * c.G, B * c.B);
 	}
 }
