@@ -3,19 +3,15 @@ public class Camera {
 	private Vector location;
 	private Vector lookat;
 	private double zoom;
-	
-	// Screen settings
 	private int cols;
 	private int rows;
-	private Vector horizontal;
-	private Vector vertical;
 	private double width;
 	private double height;
 
-	public Camera(Vector location, Vector lookat, double zoom, int pixels) {
+	public Camera(Vector location, Vector lookat, int pixels) {
 		this.location = location;
 		this.lookat = lookat;
-		this.zoom = zoom;
+		zoom = 1.0;
 		cols = pixels;
 		rows = pixels;
 		width = 1.0;
@@ -34,12 +30,12 @@ public class Camera {
 		return image;
 	}
 	
-	public Ray getRay(int row, int col) {
+	private Ray getRay(int row, int col) {
 		Vector aim = lookat.sub(location).norm();
-		horizontal = aim.cross(new Vector(0,0,1)).norm();
+		Vector horizontal = aim.cross(new Vector(0,0,1)).norm();
 		if (horizontal.length() == 0)
 			horizontal = new Vector(1,0,0);
-		vertical = horizontal.cross(aim).norm();
+		Vector vertical = horizontal.cross(aim).norm();
 		Vector center = location.add(aim.mult(zoom));
 		double dx = width / (cols - 1);
 		double dy = height / (rows - 1);
@@ -48,6 +44,62 @@ public class Camera {
 		Vector pixel = center.add(horizontal.mult(x)).add(vertical.mult(y));
 		Ray ray = new Ray(location, pixel.sub(location));
 		return ray;
+	}
+
+	public Vector getLocation() {
+		return location;
+	}
+
+	public void setLocation(Vector location) {
+		this.location = location;
+	}
+
+	public Vector getLookat() {
+		return lookat;
+	}
+
+	public void setLookat(Vector lookat) {
+		this.lookat = lookat;
+	}
+
+	public double getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(double zoom) {
+		this.zoom = zoom;
+	}
+
+	public int getCols() {
+		return cols;
+	}
+
+	public void setCols(int cols) {
+		this.cols = cols;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
 	}
 
 }
