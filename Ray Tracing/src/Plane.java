@@ -1,5 +1,5 @@
 
-public class Plane implements Intersectable {
+public class Plane implements Entity {
 	Vector point;
 	Vector normal;
 	Color color;

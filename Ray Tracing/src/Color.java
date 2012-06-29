@@ -4,9 +4,9 @@ public class Color {
 	private double G;
 	private double B;
 	public Color(double iR, double iG, double iB) {
-		R = iR;
-		G = iG;
-		B = iB;
+		R = iR < 0 ? 0 : iR > 1 ? 1 : iR;
+		G = iG < 0 ? 0 : iG > 1 ? 1 : iG;
+		B = iB < 0 ? 0 : iB > 1 ? 1 : iB;
 	}
 	public double getR() {
 		return R;
@@ -25,5 +25,11 @@ public class Color {
 	}
 	public Color mult(Color c) {
 		return new Color(R * c.R, G * c.G, B * c.B);
+	}
+	public Color add(Color c) {
+		return new Color(R + c.R, G + c.G, B + c.B);
+	}
+	public Color sub(Color c) {
+		return new Color(R - c.R, G - c.G, B - c.B);
 	}
 }

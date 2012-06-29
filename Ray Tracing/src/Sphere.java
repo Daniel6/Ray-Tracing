@@ -1,6 +1,6 @@
 
 
-public class Sphere implements Intersectable {
+public class Sphere implements Entity {
 	Vector center;
 	double radius;
 	Color color;
