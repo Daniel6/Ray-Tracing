@@ -3,12 +3,12 @@ public class Main {
 	public static void main(String args[]) {
 		Vector viewpoint = new Vector(-50, 0, 0);
 		Scene scene = new Scene();
-		scene.add(new Sphere(new Vector(0,0,0), .1, new Color(1,0,0)));
-		scene.add(new Sphere(new Vector(0,0,.3), .1, new Color(1,1,0)));
-		scene.add(new Sphere(new Vector(0,0,-.3), .1, new Color(0,1,1)));
-		scene.add(new Plane(new Vector(0,0,0), new Vector(-1,0,0), new Color(1,1,1)));
-		scene.add(new PointLight(new Vector(-.2,.2,0), new Color(1,1,1)));
-		scene.add(new PointLight(new Vector(-.2,-.2,0), new Color(1,1,1)));
+		scene.add(new Sphere(new Vector(0,0,0), .1, Color.WHITE));
+		scene.add(new Sphere(new Vector(0,0,.3), .1, Color.WHITE));
+		scene.add(new Sphere(new Vector(0,0,-.3), .1, Color.WHITE));
+		scene.add(new Plane(new Vector(0,0,0), new Vector(-1,0,0), Color.WHITE));
+		scene.add(new PointLight(new Vector(-.2,.2,0), Color.GRAY));
+		scene.add(new PointLight(new Vector(-.2,-.2,0), Color.GRAY));
 		
 		Color color = new Color(0,0,0);
 		RGBImage i = new RGBImage(1000, 1000);

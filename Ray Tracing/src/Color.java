@@ -3,6 +3,9 @@ public class Color {
 	private double R;
 	private double G;
 	private double B;
+	public static final Color WHITE = new Color(1.0, 1.0, 1.0);
+	public static final Color BLACK = new Color(0.0, 0.0, 0.0);
+	public static final Color GRAY  = new Color(0.5, 0.5, 0.5);
 	public Color(double iR, double iG, double iB) {
 		R = iR < 0 ? 0 : iR > 1 ? 1 : iR;
 		G = iG < 0 ? 0 : iG > 1 ? 1 : iG;
