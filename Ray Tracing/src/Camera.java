@@ -2,24 +2,24 @@ public class Camera {
 
 	private Vector location;
 	private Vector lookat;
+	private double zoom;
 	
 	// Screen settings
 	private int cols;
 	private int rows;
 	private Vector horizontal;
 	private Vector vertical;
-	private double distance;
 	private double width;
 	private double height;
 
-	public Camera(Vector location, Vector lookat, int pixels) {
+	public Camera(Vector location, Vector lookat, double zoom, int pixels) {
 		this.location = location;
 		this.lookat = lookat;
+		this.zoom = zoom;
 		cols = pixels;
 		rows = pixels;
 		width = 1.0;
 		height = 1.0;
-		distance = 1.0;
 	}
 	
 	public RGBImage process(Scene scene) {
@@ -40,7 +40,7 @@ public class Camera {
 		if (horizontal.length() == 0)
 			horizontal = new Vector(1,0,0);
 		vertical = horizontal.cross(aim).norm();
-		Vector center = location.add(aim.mult(distance));
+		Vector center = location.add(aim.mult(zoom));
 		double dx = width / (cols - 1);
 		double dy = height / (rows - 1);
 		double x = -0.5 * width + col * dx;
