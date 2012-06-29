@@ -3,6 +3,19 @@ public class Plane implements Entity {
 	Vector point;
 	Vector normal;
 	Color color;
+	Scene scene;
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	public Scene getScene() {
+		return scene;
+	}
+	public void setScene(Scene scene) {
+		this.scene = scene;
+	}
 	public Plane(Vector c, Vector n, Color color) {
 		point = c;
 		normal = n;

@@ -4,6 +4,13 @@ public class Sphere implements Entity {
 	Vector center;
 	double radius;
 	Color color;
+	Scene scene;
+	public Scene getScene() {
+		return scene;
+	}
+	public void setScene(Scene scene) {
+		this.scene = scene;
+	}
 	public Sphere(Vector c, double r, Color col) {
 		center = c;
 		radius = r;

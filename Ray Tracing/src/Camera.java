@@ -23,7 +23,7 @@ public class Camera {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
 				Ray ray = getRay(row, col);
-				Color color = scene.getClosest(ray);
+				Color color = scene.getColor(scene.getClosest(ray));
 				image.setPixel(col, row, color);
 			}
 		}

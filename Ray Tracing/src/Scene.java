@@ -10,9 +10,8 @@ public class Scene {
 		lights = new ArrayList<Light>();
 	}
 
-	public Color getClosest(Ray r) {
+	public Intersection getClosest(Ray r) {
 		Intersection closest = null;
-		Color c = new Color(0, 0, 0);
 		for (Entity o : objects) {
 			Intersection p = o.findIntersect(r);
 			if (p == null) {
@@ -26,20 +25,29 @@ public class Scene {
 				closest = p;
 			}
 		}
-		if (closest != null) {
-			c = closest.getColor();
-			Color lc = new Color(0,0,0);
+		return closest;
+	}
+	
+	public Color getColor(Intersection i) {
+		if (i == null) {
+			return new Color(0,0,0);
+		}
+		Color c = i.getColor();
+		Color lc = new Color(0,0,0);
 			for (Light l : lights) {
-				lc = lc.add(l.intensity(closest));
-			}
+				lc = lc.add(l.intensity(i));
 			c = c.mult(lc);
 		}
 		return c;
 	}
+
 	public void add(Entity i) {
 		objects.add(i);
+		
 	}
+
 	public void add(Light light) {
 		lights.add(light);
+		light.setScene(this);
 	}
 }
