@@ -36,7 +36,7 @@ public class Vector {
 		return Math.sqrt(Math.pow(k_X,2.0)+Math.pow(k_Y,2.0)+Math.pow(k_Z,2.0));
 	}
 	public String toString() {
-		return "Vector(" + k_X + "," + k_Y + "," + k_Z + ")";
+		return "vector(" + k_X + "," + k_Y + "," + k_Z + ")";
 	}
 	public double dot(Vector v) {
 		return (k_X * v.k_X) + (k_Y * v.k_Y) + (k_Z * v.k_Z);
@@ -51,6 +51,7 @@ public class Vector {
 		return new Vector(k_X / d, k_Y / d, k_Z / d);
 	}
 	public Vector norm() {
-		return this.div(this.length());
+		double l = this.length();
+		return l == 0 ? this : this.div(l);
 	}
 }

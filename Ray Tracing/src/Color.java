@@ -31,7 +31,7 @@ public class Color {
 	}
 
 	public String toString() {
-		return "Color (" + R + "," + G + "," + B + ")";
+		return "color(" + R + "," + G + "," + B + ")";
 	}
 
 	public Color mult(double d) {

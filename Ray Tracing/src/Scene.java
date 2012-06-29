@@ -20,6 +20,7 @@ public class Scene {
 			}
 			if (closest == null) {
 				closest = p;
+				continue;
 			}
 			if (p.getDistance() < closest.getDistance()) {
 				closest = p;

@@ -7,7 +7,7 @@ public class Ray {
 		direction = d.norm();
 	}
 	public String toString() {
-		return "Origin " + origin + ".	Direction " + direction + ".";
+		return "origin:" + origin + ":direction:" + direction;
 	}
 	public Vector getOrigin() {
 		return origin;

@@ -1,125 +1,53 @@
 public class Camera {
 
 	private Vector location;
-	private Vector aim;
+	private Vector lookat;
 	
 	// Screen settings
-	private long cols;
-	private long rows;
+	private int cols;
+	private int rows;
 	private Vector horizontal;
 	private Vector vertical;
 	private double distance;
 	private double width;
 	private double height;
 
-	public Camera(Vector location, Vector aim) {
+	public Camera(Vector location, Vector lookat, int pixels) {
 		this.location = location;
-		this.aim = aim.norm();
-		cols = 1000;
-		rows = 1000;
+		this.lookat = lookat;
+		cols = pixels;
+		rows = pixels;
 		width = 1.0;
 		height = 1.0;
 		distance = 1.0;
-		setup();
 	}
 	
-	private void setup() {
+	public RGBImage process(Scene scene) {
+		RGBImage image = new RGBImage(cols, rows);
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				Ray ray = getRay(row, col);
+				Color color = scene.getClosest(ray);
+				image.setPixel(col, row, color);
+			}
+		}
+		return image;
+	}
+	
+	public Ray getRay(int row, int col) {
+		Vector aim = lookat.sub(location).norm();
 		horizontal = aim.cross(new Vector(0,0,1)).norm();
 		if (horizontal.length() == 0)
 			horizontal = new Vector(1,0,0);
 		vertical = horizontal.cross(aim).norm();
-	}
-	
-	public Ray getRay(int row, int col) {
-		double dx = width / (cols - 1);
-		double dy = height / (cols - 1);
-		double x = dx * (col - 0.5 * cols);
-		double y = dy * (col - 0.5 * rows);
 		Vector center = location.add(aim.mult(distance));
+		double dx = width / (cols - 1);
+		double dy = height / (rows - 1);
+		double x = -0.5 * width + col * dx;
+		double y = +0.5 * height - row * dy;
 		Vector pixel = center.add(horizontal.mult(x)).add(vertical.mult(y));
 		Ray ray = new Ray(location, pixel.sub(location));
 		return ray;
-	}
-
-	public Vector getLocation() {
-		return location;
-	}
-
-	public void setLocation(Vector location) {
-		this.location = location;
-		setup();
-	}
-
-	public Vector getAim() {
-		return aim;
-	}
-
-	public void setAim(Vector aim) {
-		this.aim = aim;
-		setup();
-	}
-
-	public long getXpixels() {
-		return cols;
-	}
-
-	public void setXpixels(long xpixels) {
-		this.cols = xpixels;
-		setup();
-	}
-
-	public long getYpixels() {
-		return rows;
-	}
-
-	public void setYpixels(long ypixels) {
-		this.rows = ypixels;
-		setup();
-	}
-
-	public Vector getHorizontal() {
-		return horizontal;
-	}
-
-	public void setHorizontal(Vector horizontal) {
-		this.horizontal = horizontal;
-		setup();
-	}
-
-	public Vector getVertical() {
-		return vertical;
-	}
-
-	public void setVertical(Vector vertical) {
-		this.vertical = vertical;
-		setup();
-	}
-
-	public double getDistance() {
-		return distance;
-	}
-
-	public void setDistance(double distance) {
-		this.distance = distance;
-		setup();
-	}
-
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-		setup();
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-		setup();
 	}
 
 }

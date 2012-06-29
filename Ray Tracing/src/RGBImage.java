@@ -28,7 +28,11 @@ public class RGBImage {
 	        this.height = height;
 	    }
 
-	    void setPixel(int x, int y, int rgb) {
+	    void setPixel(int x, int y, Color c) {
+			int blue = (int) (c.getB() * 255);
+			int green = (int) (c.getG() * 255);
+			int red = (int) (c.getR() * 255);
+			int rgb = blue | (green << 8) | (red << 16);
 	        image.setRGB(x, y, rgb);
 	    }
 
