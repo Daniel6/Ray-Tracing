@@ -1,4 +1,3 @@
-
 public class Camera {
 
 	private Vector location;
