@@ -37,10 +37,10 @@ public class Scene {
 		}
 		Color c = i.getColor();
 		Color lc = new Color(0,0,0);
-			for (Light l : lights) {
-				lc = lc.add(l.intensity(i));
-			c = c.mult(lc);
+		for (Light l : lights) {
+			lc = lc.add(l.intensity(i));
 		}
+		c = c.mult(lc.clip());
 		return c;
 	}
 

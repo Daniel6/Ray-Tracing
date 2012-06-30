@@ -49,4 +49,12 @@ public class Color {
 	public Color sub(Color c) {
 		return new Color(R - c.R, G - c.G, B - c.B);
 	}
+	
+	static double clip(double d) {
+		return Math.max(Math.min(d, 1), 0);
+	}
+	
+	public Color clip() {
+		return new Color(clip(R), clip(G), clip(B));
+	}
 }
