@@ -33,12 +33,10 @@ public class PointLight implements Light {
 		if (d < 0) {
 			d = 0;
 		}
-		Ray r = new Ray(i.getIntersection(), location.sub(i.getIntersection()));
+		Ray r = new Ray(i.getIntersection(), a);
 		Intersection j = scene.getClosest(r);
-		if (j != null) {
-			if (/*j.getDistance() < location.sub(i.getIntersection()).length()*/  j.getDistance() > 0.0000001) {
-				return Color.BLACK;
-			}
+		if (j != null && j.getDistance() < location.sub(i.getIntersection()).length()) {
+			return Color.BLACK;
 		}
 		return color.mult(d);
 	}

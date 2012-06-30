@@ -17,6 +17,9 @@ public class Scene {
 			if (p == null) {
 				continue;
 			}
+			if (p.getDistance() < .0001) {
+				continue;
+			}
 			if (closest == null) {
 				closest = p;
 				continue;
