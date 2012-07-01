@@ -14,12 +14,7 @@ public class PointLight implements Light {
 	public void setLocation(Vector location) {
 		this.location = location;
 	}
-	public Color getColor() {
-		return color;
-	}
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	
 	public Scene getScene() {
 		return scene;
 	}
@@ -40,4 +35,5 @@ public class PointLight implements Light {
 		}
 		return color.mult(d);
 	}
+	
 }

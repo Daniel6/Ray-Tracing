@@ -2,24 +2,19 @@
 public class Plane implements Entity {
 	Vector point;
 	Vector normal;
-	Color color;
+	Material material;
 	Scene scene;
-	public Color getColor() {
-		return color;
-	}
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	
 	public Scene getScene() {
 		return scene;
 	}
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}
-	public Plane(Vector c, Vector n, Color color) {
+	public Plane(Vector c, Vector n, Material material) {
 		point = c;
 		normal = n;
-		this.color = color;
+		this.material = material;
 	}
 	public Intersection findIntersect(Ray r) {
 		double d = r.getDirection().dot(normal);
@@ -31,7 +26,13 @@ public class Plane implements Entity {
 			return null;
 		}
 		Vector i = r.getOrigin().add(r.getDirection().mult(t));
-		return new Intersection(t, i, normal, color);
+		return new Intersection(t, i, normal, material.getDiffuse());
+	}
+	public Material getMaterial() {
+		return material;
+	}
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 	public Vector getPoint() {
 		return point;

@@ -1,31 +1,29 @@
 
-
 public class Sphere implements Entity {
 	Vector center;
 	double radius;
-	Color color;
+	Material material;
 	Scene scene;
+
 	public Scene getScene() {
 		return scene;
 	}
+
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}
-	public Sphere(Vector c, double r, Color col) {
+
+	public Sphere(Vector c, double r, Material m) {
 		center = c;
 		radius = r;
-		color = col;
+		material = m;
 	}
-	public Color getColor() {
-		return color;
-	}
-	public void setColor(Color color) {
-		this.color = color;
-	}
+
 	public Intersection findIntersect(Ray r) {
 		double a = r.getDirection().dot(r.getDirection());
 		double b = 2 * r.getDirection().dot(r.getOrigin().sub(center));
-		double c = r.getOrigin().sub(center).dot(r.getOrigin().sub(center)) - (radius * radius);
+		double c = r.getOrigin().sub(center).dot(r.getOrigin().sub(center))
+				- (radius * radius);
 		double f = Math.pow(b, 2) - 4 * a * c;
 		if (f < 0) {
 			return null;
@@ -53,19 +51,31 @@ public class Sphere implements Entity {
 		}
 		Vector i = r.getOrigin().add(r.getDirection().mult(t));
 		Vector n = i.sub(center);
-		return new Intersection(t, i, n, color);
+		return new Intersection(t, i, n, material.getDiffuse());
 	}
+
 	public Vector getCenter() {
 		return center;
 	}
+
 	public void setCenter(Vector center) {
 		this.center = center;
 	}
+
 	public double getRadius() {
 		return radius;
 	}
+
 	public void setRadius(double radius) {
 		this.radius = radius;
 	}
-	
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+
 }
