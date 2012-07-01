@@ -54,4 +54,15 @@ public class Vector {
 		double l = this.length();
 		return l == 0 ? this : this.div(l);
 	}
+	public Vector reflect( Vector n) {
+		Vector v = this;
+		Vector y = n.norm();
+		Vector z = v.cross(y).norm();
+		Vector x = z.cross(y).norm();
+		double comp_x = v.dot(x);
+		double comp_y = v.dot(y);
+		Vector global_x = x.mult(comp_x);
+		Vector global_y = y.mult(-comp_y);
+		return global_x.add(global_y);
+	}
 }
