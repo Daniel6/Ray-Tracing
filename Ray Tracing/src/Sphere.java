@@ -51,7 +51,7 @@ public class Sphere implements Entity {
 		}
 		Vector i = r.getOrigin().add(r.getDirection().mult(t));
 		Vector n = i.sub(center);
-		return new Intersection(t, i, n, material.getDiffuse());
+		return new Intersection(t, r, i, n, material);
 	}
 
 	public Vector getCenter() {

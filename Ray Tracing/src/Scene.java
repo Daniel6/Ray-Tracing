@@ -30,23 +30,32 @@ public class Scene {
 		}
 		return closest;
 	}
-	
+
+	public Color reflection(Intersection i) {
+		Vector origin = i.getIntersection();
+		Vector direction = i.getRay().getDirection().reflect(i.getNormal());
+		Ray r = new Ray(origin, direction);
+		return getColor(getClosest(r));
+	}
+
 	public Color getColor(Intersection i) {
 		if (i == null) {
-			return new Color(0,0,0);
+			return new Color(0, 0, 0);
 		}
-		Color c = i.getColor();
-		Color lc = new Color(0,0,0);
+		Color diffuse = i.getMaterial().getDiffuse();
+		Color reflective = i.getMaterial().getReflective();
+		Color lc = new Color(0, 0, 0);
 		for (Light l : lights) {
 			lc = lc.add(l.intensity(i));
 		}
-		c = c.mult(lc.clip());
-		return c;
+		diffuse = diffuse.mult(lc.clip());
+		reflective = reflection(i).mult(reflective);
+		return diffuse.add(reflective);
 	}
 
 	public void add(Entity i) {
 		objects.add(i);
-		
+
 	}
 
 	public void add(Light light) {

@@ -6,8 +6,8 @@ public class Material {
 	double refractionIndex;
 	public Material(Color a, Color b, Color c, double d) {
 		diffuse = a;
-		refractive = b;
-		reflective = c;
+		reflective = b;
+		refractive = c;
 		refractionIndex = d;
 	}
 	public Color getReflective() {

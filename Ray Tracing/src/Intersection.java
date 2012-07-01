@@ -3,18 +3,26 @@ public class Intersection {
 	private Vector intersection;
 	private Vector normal;
 	private double distance;
-	private Color color;
-	public Intersection(double t, Vector i, Vector n, Color c) {
+	private Material material;
+	private Ray ray;
+	public Intersection(double t, Ray r, Vector i, Vector n, Material m) {
 		intersection = i;
 		normal = n;
 		distance = t;
-		color = c;
+		material = m;
+		ray = r;
 	}
-	public Color getColor() {
-		return color;
+	public Ray getRay() {
+		return ray;
 	}
-	public void setColor(Color color) {
-		this.color = color;
+	public void setRay(Ray ray) {
+		this.ray = ray;
+	}
+	public Material getMaterial() {
+		return material;
+	}
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 	public double getDistance() {
 		return distance;

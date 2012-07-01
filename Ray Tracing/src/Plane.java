@@ -26,7 +26,7 @@ public class Plane implements Entity {
 			return null;
 		}
 		Vector i = r.getOrigin().add(r.getDirection().mult(t));
-		return new Intersection(t, i, normal, material.getDiffuse());
+		return new Intersection(t, r, i, normal, material);
 	}
 	public Material getMaterial() {
 		return material;
