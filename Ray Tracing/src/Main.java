@@ -4,7 +4,7 @@ public class Main {
 		Vector viewpoint = new Vector(10,5,5);
 		Vector lookat = new Vector(0, 0, 0);
 		Camera camera = new Camera(viewpoint, lookat, 1000);
-		camera.setZoom(2.0);
+		camera.setZoom(3.0);
 		Scene scene = new Scene();
 		Color gray25 = new Color(0.25, 0.25, 0.25);
 		Color gray75 = new Color(0.75, 0.75, 0.75);

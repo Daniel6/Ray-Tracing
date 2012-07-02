@@ -57,4 +57,13 @@ public class Color {
 	public Color clip() {
 		return new Color(clip(R), clip(G), clip(B));
 	}
+	
+	boolean isBlack() {
+		return R == 0 && G == 0 && B == 0;
+	}
+
+	boolean isWhite() {
+		return R == 1 && G == 1 && B == 1;
+	}
+
 }

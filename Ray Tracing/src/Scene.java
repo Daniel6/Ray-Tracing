@@ -42,15 +42,20 @@ public class Scene {
 		if (i == null) {
 			return new Color(0, 0, 0);
 		}
+		Color rtn = Color.BLACK;
 		Color diffuse = i.getMaterial().getDiffuse();
-		Color reflective = i.getMaterial().getReflective();
-		Color lc = new Color(0, 0, 0);
-		for (Light l : lights) {
-			lc = lc.add(l.intensity(i));
+		if (!diffuse.isBlack()) {
+			Color lc = new Color(0, 0, 0);
+			for (Light l : lights) {
+				lc = lc.add(l.intensity(i));
+			}
+			rtn = rtn.add(lc.mult(diffuse));
 		}
-		diffuse = diffuse.mult(lc.clip());
-		reflective = reflection(i).mult(reflective);
-		return diffuse.add(reflective);
+		Color reflective = i.getMaterial().getReflective();
+		if (!reflective.isBlack()) {
+			rtn = rtn.add(reflection(i).mult(reflective));
+		}
+		return rtn;
 	}
 
 	public void add(Entity i) {
