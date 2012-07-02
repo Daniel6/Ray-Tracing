@@ -26,7 +26,8 @@ public class Plane implements Entity {
 			return null;
 		}
 		Vector i = r.getOrigin().add(r.getDirection().mult(t));
-		return new Intersection(t, r, i, normal, material);
+		Vector n = d > 0 ? normal.negate() : normal;
+		return new Intersection(t, r, i, n, material);
 	}
 	public Material getMaterial() {
 		return material;

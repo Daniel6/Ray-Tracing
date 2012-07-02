@@ -54,6 +54,9 @@ public class Vector {
 		double l = this.length();
 		return l == 0 ? this : this.div(l);
 	}
+	public Vector negate() {
+		return new Vector(-x, -y, -z);
+	}
 	public Vector reflect( Vector n) {
 		Vector v = this;
 		Vector y = n.norm();

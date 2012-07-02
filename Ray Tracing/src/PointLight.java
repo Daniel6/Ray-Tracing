@@ -26,7 +26,7 @@ public class PointLight implements Light {
 		Vector b = i.getNormal().norm();
 		double d = a.dot(b);
 		if (d < 0) {
-			d = 0;
+			return Color.BLACK;
 		}
 		Ray r = new Ray(i.getIntersection(), a);
 		Intersection j = scene.getClosest(r);
