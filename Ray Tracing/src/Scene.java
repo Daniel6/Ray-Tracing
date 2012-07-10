@@ -59,8 +59,8 @@ public class Scene {
 	}
 
 	public void add(Entity i) {
+		i.setScene(this);
 		objects.add(i);
-
 	}
 
 	public void add(Light light) {

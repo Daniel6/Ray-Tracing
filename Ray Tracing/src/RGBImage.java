@@ -29,11 +29,20 @@ public class RGBImage {
 	    }
 
 	    void setPixel(int x, int y, Color c) {
+	    	c = c.clip();
 			int blue = (int) (c.getB() * 255);
 			int green = (int) (c.getG() * 255);
 			int red = (int) (c.getR() * 255);
 			int rgb = blue | (green << 8) | (red << 16);
 	        image.setRGB(x, y, rgb);
+	    }
+	    
+	    Color getPixel(int x, int y) {
+	    	int i = image.getRGB(x,  y);
+	    	double r = ((i >> 16) & 0xff) / 255.0;
+	    	double g = ((i >>  8) & 0xff) / 255.0;
+	    	double b = ((i >>  0) & 0xff) / 255.0;
+	    	return new Color(r, g, b);
 	    }
 
 	    void displayImage() {

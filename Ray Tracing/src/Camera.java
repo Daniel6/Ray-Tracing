@@ -7,6 +7,15 @@ public class Camera {
 	private int rows;
 	private double width;
 	private double height;
+	private boolean antialias;
+
+	public boolean isAntialias() {
+		return antialias;
+	}
+
+	public void setAntialias(boolean antialias) {
+		this.antialias = antialias;
+	}
 
 	public Camera(Vector location, Vector lookat, int pixels) {
 		this.location = location;
@@ -27,20 +36,46 @@ public class Camera {
 				image.setPixel(col, row, color);
 			}
 		}
+		if (antialias) {
+			RGBImage ximage = new RGBImage(cols + 1, rows + 1);
+			for (int row = 0; row <= rows; row++) {
+				for (int col = 0; col <= cols; col++) {
+					Ray ray = getRay(row - 0.5, col - 0.5);
+					Color color = scene.getColor(scene.getClosest(ray));
+					ximage.setPixel(col, row, color);
+				}
+			}
+			for (int row = 0; row < rows; row++) {
+				for (int col = 0; col < cols; col++) {
+					Color c = image.getPixel(col, row);
+					Color c00 = ximage.getPixel(col,      row);
+					Color c01 = ximage.getPixel(col,      row + 1);
+					Color c10 = ximage.getPixel(col + 1,  row);
+					Color c11 = ximage.getPixel(col + 1,  row + 1);
+					Color r = new Color(0, 0, 0);
+					r = r.add(c.mult(0.5));
+					r = r.add(c00.mult(0.125));
+					r = r.add(c01.mult(0.125));
+					r = r.add(c10.mult(0.125));
+					r = r.add(c11.mult(0.125));
+					image.setPixel(col,  row,  r);
+				}
+			}
+		}
 		return image;
 	}
 	
-	private Ray getRay(int row, int col) {
+	private Ray getRay(double row, double col) {
 		Vector aim = lookat.sub(location).norm();
 		Vector horizontal = aim.cross(new Vector(0,0,1)).norm();
 		if (horizontal.length() == 0)
 			horizontal = new Vector(1,0,0);
 		Vector vertical = horizontal.cross(aim).norm();
 		Vector center = location.add(aim.mult(zoom));
-		double dx = width / (cols - 1);
-		double dy = height / (rows - 1);
-		double x = -0.5 * width + col * dx;
-		double y = +0.5 * height - row * dy;
+		double dx = width / cols;
+		double dy = height / rows;
+		double x = -0.5 * width + (col + 0.5) * dx;
+		double y = +0.5 * height - (row + 0.5) * dy;
 		Vector pixel = center.add(horizontal.mult(x)).add(vertical.mult(y));
 		Ray ray = new Ray(location, pixel.sub(location));
 		return ray;
