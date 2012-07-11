@@ -40,7 +40,7 @@ public class Scene {
 
 	public Color getColor(Intersection i) {
 		if (i == null) {
-			return new Color(0, 0, 0);
+			return Color.BLACK;
 		}
 		Color rtn = Color.BLACK;
 		Color diffuse = i.getMaterial().getDiffuse();

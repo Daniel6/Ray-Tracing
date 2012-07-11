@@ -65,5 +65,9 @@ public class Color {
 	boolean isWhite() {
 		return R == 1 && G == 1 && B == 1;
 	}
+	
+	public static Color gray(double d) {
+		return WHITE.mult(d);
+	}
 
 }

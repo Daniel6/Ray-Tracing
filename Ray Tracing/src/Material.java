@@ -34,4 +34,10 @@ public class Material {
 	public void setRefractionIndex(double refractionIndex) {
 		this.refractionIndex = refractionIndex;
 	}
+	public static Material plastic(Color c) {
+		return new Material(c.mult(0.9), Color.gray(0.1), Color.BLACK, 0);
+	}
+	public static Material metal(Color c) {
+		return new Material(Color.gray(0.2), c.mult(0.8), Color.BLACK, 0);
+	}
 }

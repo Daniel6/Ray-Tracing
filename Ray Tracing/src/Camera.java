@@ -7,15 +7,7 @@ public class Camera {
 	private int rows;
 	private double width;
 	private double height;
-	private boolean antialias;
-
-	public boolean isAntialias() {
-		return antialias;
-	}
-
-	public void setAntialias(boolean antialias) {
-		this.antialias = antialias;
-	}
+	private int antialias;
 
 	public Camera(Vector location, Vector lookat, int pixels) {
 		this.location = location;
@@ -26,45 +18,53 @@ public class Camera {
 		width = 1.0;
 		height = 1.0;
 	}
-	
+
 	public RGBImage process(Scene scene) {
 		RGBImage image = new RGBImage(cols, rows);
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
-				Ray ray = getRay(row, col);
-				Color color = scene.getColor(scene.getClosest(ray));
-				image.setPixel(col, row, color);
-			}
-		}
-		if (antialias) {
-			RGBImage ximage = new RGBImage(cols + 1, rows + 1);
-			for (int row = 0; row <= rows; row++) {
-				for (int col = 0; col <= cols; col++) {
-					Ray ray = getRay(row - 0.5, col - 0.5);
-					Color color = scene.getColor(scene.getClosest(ray));
-					ximage.setPixel(col, row, color);
-				}
-			}
+		if (antialias == 0) {
 			for (int row = 0; row < rows; row++) {
 				for (int col = 0; col < cols; col++) {
-					Color c = image.getPixel(col, row);
-					Color c00 = ximage.getPixel(col,      row);
-					Color c01 = ximage.getPixel(col,      row + 1);
-					Color c10 = ximage.getPixel(col + 1,  row);
-					Color c11 = ximage.getPixel(col + 1,  row + 1);
-					Color r = new Color(0, 0, 0);
-					r = r.add(c.mult(0.5));
-					r = r.add(c00.mult(0.125));
-					r = r.add(c01.mult(0.125));
-					r = r.add(c10.mult(0.125));
-					r = r.add(c11.mult(0.125));
-					image.setPixel(col,  row,  r);
+					Ray ray = getRay(row, col);
+					Color color = scene.getColor(scene.getClosest(ray));
+					image.setPixel(col, row, color);
 				}
+			}
+			return image;
+		}
+		int n = antialias;
+		int nr = n * rows + 1;
+		int nc = n * cols + 1;
+		double fr = 1.0 / n;
+		double fc = 1.0 / n;
+		double w = 1.0 / (n * n);
+		RGBImage ximage = new RGBImage(nc, nr);
+		for (int row = 0; row < nr; row++) {
+			for (int col = 0; col < nc; col++) {
+				Ray ray = getRay(fr * row - 0.5, fc * col - 0.5);
+				Color color = scene.getColor(scene.getClosest(ray));
+				ximage.setPixel(col, row, color);
+			}
+		}
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				int c0 = n * col;
+				int r0 = n * row;
+				Color color = new Color(0, 0, 0);
+				for (int r = 0; r <= n; r++) {
+					for (int c = 0; c <= n; c++) {
+						Color x = ximage.getPixel(c0 + c, r0 + r);
+						double wr = (r == 0 || r == n) ? 0.5 : 1.0;
+						double wc = (c == 0 || c == n) ? 0.5 : 1.0;
+						double wx = w * wr * wc;
+						color = color.add(x.mult(wx));
+					}
+				}
+				image.setPixel(col, row, color);
 			}
 		}
 		return image;
 	}
-	
+
 	private Ray getRay(double row, double col) {
 		Vector aim = lookat.sub(location).norm();
 		Vector horizontal = aim.cross(new Vector(0,0,1)).norm();
@@ -135,6 +135,14 @@ public class Camera {
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	public int getAntialias() {
+		return antialias;
+	}
+
+	public void setAntialias(int antialias) {
+		this.antialias = antialias;
 	}
 
 }

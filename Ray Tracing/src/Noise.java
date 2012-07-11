@@ -262,5 +262,18 @@ public final class Noise {
       v[0] = v[0] / s;
       v[1] = v[1] / s;
    }
+   
+   public static void main(String[] args) {
+	   Noise.init();
+	   double mn = Double.MAX_VALUE;
+	   double mx = Double.MIN_NORMAL;
+	   for (int i = 0; i < 1000; i++) {
+		   double x = Noise.noise(-100.0 + .004 * i);
+		   mn = Math.min(mn,  x);
+		   mx = Math.max(mx,  x);
+		   System.out.println(i + ":" + x);
+	   }
+	   System.out.println("mx:" + mx + " mn:" + mn);
+   }
 }
 
