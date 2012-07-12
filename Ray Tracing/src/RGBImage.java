@@ -51,8 +51,8 @@ public class RGBImage {
 	
 	RGBImage magnify(int n) {
 		RGBImage m = new RGBImage(n * width, n * height);
-		for (int row = 0; row < width; row++) {
-			for (int col = 0; col < height; col++) {
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
 				int c = image.getRGB(col, row);
 				for (int i = 0; i < n; i++) {
 					for (int j = 0; j < n; j++) {

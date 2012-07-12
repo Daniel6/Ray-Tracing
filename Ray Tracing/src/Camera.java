@@ -9,13 +9,13 @@ public class Camera {
 	private double height;
 	private int antialias;
 
-	public Camera(Vector location, Vector lookat, int pixels) {
+	public Camera(Vector location, Vector lookat, int rows, int cols) {
 		this.location = location;
 		this.lookat = lookat;
 		zoom = 1.0;
-		cols = pixels;
-		rows = pixels;
-		width = 1.0;
+		this.cols = cols;
+		this.rows = rows;
+		width = 1.0 * cols / rows;
 		height = 1.0;
 	}
 
