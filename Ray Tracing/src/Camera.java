@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Camera {
 
 	private Vector location;
 	private Vector lookat;
 	private double zoom;
-	private int cols;
-	private int rows;
+	private int nCol;
+	private int nRow;
 	private double width;
 	private double height;
 	private int antialias;
@@ -13,40 +18,70 @@ public class Camera {
 		this.location = location;
 		this.lookat = lookat;
 		zoom = 1.0;
-		this.cols = cols;
-		this.rows = rows;
+		this.nCol = cols;
+		this.nRow = rows;
 		width = 1.0 * cols / rows;
 		height = 1.0;
 	}
 
-	public RGBImage process(Scene scene) {
-		RGBImage image = new RGBImage(cols, rows);
-		if (antialias == 0) {
-			for (int row = 0; row < rows; row++) {
-				for (int col = 0; col < cols; col++) {
-					Ray ray = getRay(row, col);
+	public class PixelEval implements Callable<PixelEval> {
+		private Scene scene;
+		private RGBImage image;
+		private int rs, re;
+		private int cs, ce;
+		private double dx, dy;
+		public PixelEval(Scene scene, RGBImage image, int rs, int re, int cs, int ce, double dx, double dy) {
+			super();
+			this.scene = scene;
+			this.image = image;
+			this.rs = rs;
+			this.re = re;
+			this.cs = cs;
+			this.ce = ce;
+			this.dx = dx;
+			this.dy = dy;
+		}
+		@Override
+		public PixelEval call() throws Exception {
+			for (int row = rs; row < re; row++) {
+				for (int col = cs; col < ce; col++) {
+					Ray ray = getRay(row, col, dx, dy);
 					Color color = scene.getColor(scene.getClosest(ray));
 					image.setPixel(col, row, color);
 				}
 			}
+			return this;
+		}
+	}
+
+	public RGBImage process(Scene scene, int nthread) throws InterruptedException {
+		RGBImage image = new RGBImage(nCol, nRow);
+		if (antialias == 0) {
+			double dx = width / nCol;
+			double dy = height / nRow;
+			ArrayList<PixelEval> pixelEvals = new ArrayList<PixelEval>(nRow * nCol);
+			for (int row = 0; row < nRow; row += 4) {
+				pixelEvals.add(new PixelEval(scene, image, row, Math.min(nRow,  row + 4), 0, nCol, dx, dy));
+			}
+			ExecutorService pool = Executors.newFixedThreadPool(nthread);
+			pool.invokeAll(pixelEvals);
 			return image;
 		}
 		int n = antialias;
-		int nr = n * rows + 1;
-		int nc = n * cols + 1;
-		double fr = 1.0 / n;
-		double fc = 1.0 / n;
+		int nr = n * nRow + 1;
+		int nc = n * nCol + 1;
+		double dx = width / (n * nCol);
+		double dy = 1.0 / (n * nRow);
 		double w = 1.0 / (n * n);
 		RGBImage ximage = new RGBImage(nc, nr);
+		ArrayList<PixelEval> pixelEvals = new ArrayList<PixelEval>(nRow * nCol);
 		for (int row = 0; row < nr; row++) {
-			for (int col = 0; col < nc; col++) {
-				Ray ray = getRay(fr * row - 0.5, fc * col - 0.5);
-				Color color = scene.getColor(scene.getClosest(ray));
-				ximage.setPixel(col, row, color);
-			}
+			pixelEvals.add(new PixelEval(scene, ximage, row, row + 1, 0, nc, dx, dy));
 		}
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
+		ExecutorService pool = Executors.newFixedThreadPool(nthread);
+		pool.invokeAll(pixelEvals);
+		for (int row = 0; row < nRow; row++) {
+			for (int col = 0; col < nCol; col++) {
 				int c0 = n * col;
 				int r0 = n * row;
 				Color color = new Color(0, 0, 0);
@@ -65,17 +100,15 @@ public class Camera {
 		return image;
 	}
 
-	private Ray getRay(double row, double col) {
+	private Ray getRay(double row, double col, double dx, double dy) {
 		Vector aim = lookat.sub(location).norm();
 		Vector horizontal = aim.cross(new Vector(0,0,1)).norm();
 		if (horizontal.length() == 0)
 			horizontal = new Vector(1,0,0);
 		Vector vertical = horizontal.cross(aim).norm();
 		Vector center = location.add(aim.mult(zoom));
-		double dx = width / cols;
-		double dy = height / rows;
-		double x = -0.5 * width + (col + 0.5) * dx;
-		double y = +0.5 * height - (row + 0.5) * dy;
+		double x = -0.5 * width + col * dx;
+		double y = +0.5 * height - row * dy;
 		Vector pixel = center.add(horizontal.mult(x)).add(vertical.mult(y));
 		Ray ray = new Ray(location, pixel.sub(location));
 		return ray;
@@ -105,36 +138,20 @@ public class Camera {
 		this.zoom = zoom;
 	}
 
-	public int getCols() {
-		return cols;
+	public int getnCol() {
+		return nCol;
 	}
 
-	public void setCols(int cols) {
-		this.cols = cols;
+	public void setnCol(int nCol) {
+		this.nCol = nCol;
 	}
 
-	public int getRows() {
-		return rows;
+	public int getnRow() {
+		return nRow;
 	}
 
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
+	public void setnRow(int nRow) {
+		this.nRow = nRow;
 	}
 
 	public int getAntialias() {
@@ -143,6 +160,14 @@ public class Camera {
 
 	public void setAntialias(int antialias) {
 		this.antialias = antialias;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public double getHeight() {
+		return height;
 	}
 
 }
