@@ -4,6 +4,7 @@ public class Material {
 	Color diffuse;
 	Color refractive;
 	double refractionIndex;
+	Roughness roughness;
 	public Material(Color a, Color b, Color c, double d) {
 		diffuse = a;
 		reflective = b;
@@ -33,6 +34,12 @@ public class Material {
 	}
 	public void setRefractionIndex(double refractionIndex) {
 		this.refractionIndex = refractionIndex;
+	}
+	public Roughness getRoughness() {
+		return roughness;
+	}
+	public void setRoughness(Roughness roughness) {
+		this.roughness = roughness;
 	}
 	public static Material plastic(Color c) {
 		return new Material(c.mult(0.9), Color.gray(0.1), Color.BLACK, 0);

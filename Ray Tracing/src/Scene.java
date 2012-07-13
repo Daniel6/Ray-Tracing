@@ -43,7 +43,12 @@ public class Scene {
 			return Color.BLACK;
 		}
 		Color rtn = Color.BLACK;
-		Color diffuse = i.getMaterial().getDiffuse();
+		Material material = i.getMaterial();
+		Roughness roughness = material.getRoughness();
+		if (roughness != null) {
+			i = roughness.perturb(i);
+		}
+		Color diffuse = material.getDiffuse();
 		if (!diffuse.isBlack()) {
 			Color lc = new Color(0, 0, 0);
 			for (Light l : lights) {
@@ -51,7 +56,7 @@ public class Scene {
 			}
 			rtn = rtn.add(lc.mult(diffuse));
 		}
-		Color reflective = i.getMaterial().getReflective();
+		Color reflective = material.getReflective();
 		if (!reflective.isBlack()) {
 			rtn = rtn.add(reflection(i).mult(reflective));
 		}

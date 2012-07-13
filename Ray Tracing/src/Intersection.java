@@ -12,6 +12,13 @@ public class Intersection {
 		material = m;
 		ray = r;
 	}
+	public Intersection(Intersection i) {
+		intersection = i.intersection;
+		normal = i.normal;
+		distance = i.distance;
+		material = i.material;
+		ray = i.ray;
+	}
 	public Ray getRay() {
 		return ray;
 	}
@@ -42,12 +49,4 @@ public class Intersection {
 	public void setNormal(Vector normal) {
 		this.normal = normal;
 	}
-	public void addNoise(double scale, double mag) {
-		double dx = Noise.noise(scale * intersection.getX(), scale * intersection.getY(), scale * intersection.getZ());
-		double dy = Noise.noise(scale * intersection.getY(), scale * intersection.getZ(), scale * intersection.getX());
-		double dz = Noise.noise(scale * intersection.getZ(), scale * intersection.getX(), scale * intersection.getY());
-		Vector p = new Vector(dx, dy, dz);
-		normal = normal.add(p.mult(mag)).norm();
-	}
-
 }
