@@ -3,17 +3,20 @@ public class Main {
 	public static void main(String args[]) throws InterruptedException {
 		Vector viewpoint = new Vector(4,2,2);
 		Vector lookat = new Vector(0, 0, 0);
-		Camera camera = new Camera(viewpoint, lookat, 1080, 1920);
-		camera.setAntialias(0);
+		Camera camera = new Camera(viewpoint, lookat, 600, 800);
+		camera.setAntialias(2);
 		camera.setZoom(4);
 		Scene scene = new Scene();
-		scene.add(new Sphere(new Vector(0, 0,0.2), 0.2, Material.plastic(Color.WHITE)));
+		Material globe = Material.metal(Color.WHITE);
+		globe.setRoughness(new Roughness(10000, .005));
+		scene.add(new Sphere(new Vector(0, 0,0.2), 0.2, globe));
 		scene.add(new Sphere(new Vector(.5, 0,0.2), 0.2, Material.plastic(Color.RED)));
 		scene.add(new Sphere(new Vector(0, .5,0.2), 0.2, Material.plastic(Color.GREEN)));
 		scene.add(new Sphere(new Vector(0,-.5,0.2), 0.2, Material.plastic(Color.BLUE)));
 		scene.add(new Sphere(new Vector(-.5,0,0.2), 0.2, Material.plastic(Color.YELLOW)));
-		Material floor = Material.plastic(Color.WHITE);
-		floor.setRoughness(new Roughness(100, .1));
+		scene.add(new Box(new Vector(0.3, 0.3, 0), new Vector(0.5, 0.5, 0.1), Material.plastic(Color.WHITE)));
+		Material floor = Material.plastic(new Color(0.8, 0.8, 1.0));
+		floor.setRoughness(new Roughness(100, .01));
 		scene.add(new Plane(new Vector(0,0,0), new Vector(0,0,1), floor));
 		scene.add(new PointLight(new Vector(5,-5, 2), Color.gray(0.8)));
 		scene.add(new PointLight(new Vector(5, 5, 2), Color.gray(0.8)));
