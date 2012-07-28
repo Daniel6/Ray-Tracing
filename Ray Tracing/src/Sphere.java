@@ -1,5 +1,5 @@
 
-public class Sphere implements Entity {
+public class Sphere extends Entity {
 	Vector center;
 	double radius;
 	Material material;
@@ -28,30 +28,20 @@ public class Sphere implements Entity {
 		if (f < 0) {
 			return null;
 		}
-		double t = -1;
-		double t1 = (-b + Math.sqrt(f)) / (2 * a);
-		double t2 = (-b - Math.sqrt(f)) / (2 * a);
-		if (t1 > 0 && t2 > 0 && t1 < t2) {
-			t = t1;
+		f = Math.sqrt(f);
+		double t1 = (-b - f) / (2 * a);
+		if (t1 > getTol()) {
+			Vector i = r.position(t1);
+			Vector n = i.sub(center).norm();	
+			return new Intersection(t1, r, i, n, material);
 		}
-		if (t1 > 0 && t2 > 0 && t2 < t1) {
-			t = t2;
+		double t2 = (-b + f) / (2 * a);
+		if (t2 > getTol()) {
+			Vector i = r.position(t2);
+			Vector n = center.sub(i).norm();	
+			return new Intersection(t2, r, i, n, material);
 		}
-		if (t1 > 0 && t2 > 0 && t1 == t2) {
-			t = t1;
-		}
-		if (t1 > 0 && t2 < 0) {
-			t = t1;
-		}
-		if (t1 < 0 && t2 > 0) {
-			t = t2;
-		}
-		if (t < 0) {
-			return null;
-		}
-		Vector i = r.getOrigin().add(r.getDirection().mult(t));
-		Vector n = i.sub(center);
-		return new Intersection(t, r, i, n, material);
+		return null;
 	}
 
 	public Vector getCenter() {

@@ -1,5 +1,5 @@
 
-public class Plane implements Entity {
+public class Plane extends Entity {
 	Vector point;
 	Vector normal;
 	Material material;
@@ -13,7 +13,7 @@ public class Plane implements Entity {
 	}
 	public Plane(Vector c, Vector n, Material material) {
 		point = c;
-		normal = n;
+		normal = n.norm();
 		this.material = material;
 	}
 	public Intersection findIntersect(Ray r) {
@@ -22,12 +22,12 @@ public class Plane implements Entity {
 			return null;
 		}
 		double t = (point.dot(normal) - normal.dot(r.getOrigin())) / d;
-		if(t < 0) {
-			return null;
+		if (t > getTol()) {
+			Vector i = r.position(t);
+			Vector n = d > 0 ? normal.negate() : normal;
+			return new Intersection(t, r, i, n, material);
 		}
-		Vector i = r.getOrigin().add(r.getDirection().mult(t));
-		Vector n = d > 0 ? normal.negate() : normal;
-		return new Intersection(t, r, i, n, material);
+		return null;
 	}
 	public Material getMaterial() {
 		return material;

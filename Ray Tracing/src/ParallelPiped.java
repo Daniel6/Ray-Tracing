@@ -1,4 +1,4 @@
-public class ParallelPiped implements Entity {
+public class ParallelPiped extends Entity {
 	private Vector pmin, pmax;
 	private Vector nx, ny, nz;
 	private Material material;
@@ -25,7 +25,7 @@ public class ParallelPiped implements Entity {
 		this.scene = scene;
 	}
 	@Override
-	public Intersection findIntersect(Ray r) {
+	public Intersection findIntersect(Ray r) throws Exception {
 		Vector o = r.getOrigin();
 		Vector d = r.getDirection();
 		double txmin = Double.MIN_VALUE;
@@ -39,6 +39,9 @@ public class ParallelPiped implements Entity {
 			txmin = pmax.sub(o).dot(nx) / dx;
 			txmax = pmin.sub(o).dot(nx) / dx;
 		}
+		if (txmin > txmax) {
+			throw new Exception("txmin:" + txmin + " txmax:" + txmax);
+		}
 		double tymin = Double.MIN_VALUE;
 		double tymax = Double.MAX_VALUE;
 		double dy = d.dot(ny);
@@ -49,6 +52,9 @@ public class ParallelPiped implements Entity {
 		if (dy < 0) {
 			tymin = pmax.sub(o).dot(ny) / dy;
 			tymax = pmin.sub(o).dot(ny) / dy;
+		}
+		if (tymin > tymax) {
+			throw new Exception("tymin:" + tymin + " tymax:" + tymax);
 		}
 		double tzmin = Double.MIN_VALUE;
 		double tzmax = Double.MAX_VALUE;
@@ -61,32 +67,32 @@ public class ParallelPiped implements Entity {
 			tzmin = pmax.sub(o).dot(nz) / dz;
 			tzmax = pmin.sub(o).dot(nz) / dz;
 		}
+		if (tzmin > tzmax) {
+			throw new Exception("tzmin:" + tzmin + " tzmax:" + tzmax);
+		}
 		double tmin = Math.max(txmin, Math.max(tymin,  tzmin));
 		double tmax = Math.min(txmax, Math.min(tymax,  tzmax));
-		if (tmin > tmax)
+		if (tmax - tmin <= getTol())
 			return null;
-		if (tmax < 0)
+		if (tmax <= getTol())
 			return null;
-		double t = tmin > 0 ? tmin : tmax;
+		double t = tmin > getTol() ? tmin : tmax;
 		Vector i = r.position(t);
-		Vector n = null;
-		double tol = 1.0e-8;
-		Vector dmin = i.sub(pmin);
-		Vector dmax = i.sub(pmax);
+		Vector n = new Vector(0, 0, 1);
+		Vector dmin = i.sub(pmin).norm();
+		Vector dmax = i.sub(pmax).norm();
 		double sx = Math.min(Math.abs(dmin.dot(nx)), Math.abs(dmax.dot(nx)));
 		double sy = Math.min(Math.abs(dmin.dot(ny)), Math.abs(dmax.dot(ny)));
 		double sz = Math.min(Math.abs(dmin.dot(nz)), Math.abs(dmax.dot(nz)));
-		if (sx < tol) {
+		if (sx < sy && sx < sz) {
 			n = dx > 0 ? nx.negate() : nx;
 		}
-		if (sy < tol) {
+		else if (sy < sz) {
 			n = dy > 0 ? ny.negate(): ny;
 		}
-		if (sz < tol) {
+		else {
 			n = dz > 0 ? nz.negate() : nz;
 		}
-		if (n == null)
-			return null;
 		return new Intersection(t, r, i, n, material);
 	}
 }

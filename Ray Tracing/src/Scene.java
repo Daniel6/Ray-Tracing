@@ -10,14 +10,11 @@ public class Scene {
 		lights = new ArrayList<Light>();
 	}
 
-	public Intersection getClosest(Ray r) {
+	public Intersection getClosest(Ray r) throws Exception {
 		Intersection closest = null;
 		for (Entity o : objects) {
 			Intersection p = o.findIntersect(r);
 			if (p == null) {
-				continue;
-			}
-			if (p.getDistance() < .0001) {
 				continue;
 			}
 			if (closest == null) {
@@ -31,14 +28,14 @@ public class Scene {
 		return closest;
 	}
 
-	public Color reflection(Intersection i) {
+	public Color reflection(Intersection i) throws Exception {
 		Vector origin = i.getIntersection();
 		Vector direction = i.getRay().getDirection().reflect(i.getNormal());
 		Ray r = new Ray(origin, direction);
 		return getColor(getClosest(r));
 	}
 
-	public Color getColor(Intersection i) {
+	public Color getColor(Intersection i) throws Exception {
 		if (i == null) {
 			return Color.BLACK;
 		}

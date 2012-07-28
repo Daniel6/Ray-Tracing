@@ -21,7 +21,7 @@ public class PointLight implements Light {
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}
-	public Color intensity(Intersection i) {
+	public Color intensity(Intersection i) throws Exception {
 		Vector a = location.sub(i.getIntersection()).norm();
 		Vector b = i.getNormal().norm();
 		double d = a.dot(b);

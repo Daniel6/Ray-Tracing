@@ -1,4 +1,4 @@
-public class Box implements Entity {
+public class Box extends Entity {
 	private Vector vmin;
 	private Vector vmax;
 	private Material material;
@@ -68,24 +68,23 @@ public class Box implements Entity {
 		double tmax = Math.min(txmax, Math.min(tymax,  tzmax));
 		if (tmin > tmax)
 			return null;
-		if (tmax < 0)
+		if (tmax <= getTol())
 			return null;
-		double t = tmin > 0 ? tmin : tmax;
+		double t = tmin > getTol() ? tmin : tmax;
 		Vector i = r.position(t);
 		Vector n = null;
-		double tol = 1.0e-8;
 		Vector dmin = i.sub(vmin);
 		Vector dmax = i.sub(vmax);
 		double dx = Math.min(Math.abs(dmin.getX()), Math.abs(dmax.getX()));
 		double dy = Math.min(Math.abs(dmin.getY()), Math.abs(dmax.getY()));
 		double dz = Math.min(Math.abs(dmin.getZ()), Math.abs(dmax.getZ()));
-		if (dx < tol) {
+		if (dx > getTol()) {
 			n = d.getX() > 0 ? negX : posX;
 		}
-		if (dy < tol) {
+		if (dy > getTol()) {
 			n = d.getY() > 0 ? negY : posY;
 		}
-		if (dz < tol) {
+		if (dz > getTol()) {
 			n = d.getZ() > 0 ? negZ : posZ;
 		}
 		if (n == null)
