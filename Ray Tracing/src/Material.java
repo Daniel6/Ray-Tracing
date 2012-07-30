@@ -5,11 +5,12 @@ public class Material {
 	Color refractive;
 	double refractionIndex;
 	Roughness roughness;
-	public Material(Color a, Color b, Color c, double d) {
+	double specularExponent;
+	public Material(Color a, Color b) {
 		diffuse = a;
 		reflective = b;
-		refractive = c;
-		refractionIndex = d;
+		refractionIndex = 1.0;
+		specularExponent = 0.0;
 	}
 	public Color getReflective() {
 		return reflective;
@@ -41,10 +42,20 @@ public class Material {
 	public void setRoughness(Roughness roughness) {
 		this.roughness = roughness;
 	}
+	public double getSpecularExponent() {
+		return specularExponent;
+	}
+	public void setSpecularExponent(double specularExponent) {
+		this.specularExponent = specularExponent;
+	}
 	public static Material plastic(Color c) {
-		return new Material(c.mult(0.9), Color.gray(0.1), Color.BLACK, 0);
+		Material m = new Material(c.mult(0.9), Color.gray(0.1));
+		m.setSpecularExponent(100.0);
+		return m;
 	}
 	public static Material metal(Color c) {
-		return new Material(Color.gray(0.2), c.mult(0.8), Color.BLACK, 0);
+		Material m = new Material(Color.gray(0.2), c.mult(0.8));
+		m.setSpecularExponent(1000.0);
+		return m;
 	}
 }

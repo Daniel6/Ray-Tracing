@@ -29,10 +29,14 @@ public class Scene {
 	}
 
 	public Color reflection(Intersection i) throws Exception {
+		Color reflect = i.getMaterial().getReflective();
+		if (reflect.isBlack()) {
+			return Color.BLACK;
+		}
 		Vector origin = i.getIntersection();
 		Vector direction = i.getRay().getDirection().reflect(i.getNormal());
 		Ray r = new Ray(origin, direction);
-		return getColor(getClosest(r));
+		return getColor(getClosest(r)).mult(reflect);
 	}
 
 	public Color getColor(Intersection i) throws Exception {
@@ -45,18 +49,10 @@ public class Scene {
 		if (roughness != null) {
 			i = roughness.perturb(i);
 		}
-		Color diffuse = material.getDiffuse();
-		if (!diffuse.isBlack()) {
-			Color lc = new Color(0, 0, 0);
-			for (Light l : lights) {
-				lc = lc.add(l.intensity(i));
-			}
-			rtn = rtn.add(lc.mult(diffuse));
+		for (Light l : lights) {
+			rtn = rtn.add(l.intensity(i));
 		}
-		Color reflective = material.getReflective();
-		if (!reflective.isBlack()) {
-			rtn = rtn.add(reflection(i).mult(reflective));
-		}
+		rtn = rtn.add(reflection(i));
 		return rtn;
 	}
 
