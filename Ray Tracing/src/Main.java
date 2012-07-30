@@ -9,13 +9,12 @@ public class Main {
 		Scene scene = new Scene();
 		Material globe = Material.metal(Color.WHITE);
 		globe.setRoughness(new Roughness(10000, .005));
-//		scene.add(new Sphere(new Vector(0, 0,0.2), 0.2, globe));
-		scene.add(new Sphere(new Vector(.5, 0,0.2), 0.2, Material.plastic(Color.RED)));
-		scene.add(new Sphere(new Vector(0, .5,0.2), 0.2, Material.plastic(Color.GREEN)));
-		scene.add(new Sphere(new Vector(0,-.5,0.2), 0.2, Material.plastic(Color.BLUE)));
-		scene.add(new Sphere(new Vector(-.5,0,0.2), 0.2, Material.plastic(Color.YELLOW)));
+		scene.add(new Sphere(new Vector(.5, 0,0.2), 0.1, Material.plastic(Color.RED)));
+		scene.add(new Sphere(new Vector(0, .5,0.2), 0.1, Material.plastic(Color.GREEN)));
+		scene.add(new Sphere(new Vector(0,-.5,0.2), 0.1, Material.plastic(Color.BLUE)));
+		scene.add(new Sphere(new Vector(-.5,0,0.2), 0.1, Material.plastic(Color.YELLOW)));
 		scene.add(new ParallelPiped(new Vector(0.3, 0.3, 0), new Vector(0.3, 0, 0), new Vector(0, 0.5, 0), new Vector(0, 0, 0.1), Material.plastic(Color.MAGENTA.mult(.5))));
-		scene.add(new Cylinder(new Vector(0, 0, 0), new Vector(0, 0, .5), .3, Material.metal(Color.WHITE)));
+		scene.add(new Cylinder(new Vector(0, 0, 0), new Vector(0, 0, .5), .2, Material.metal(Color.WHITE)));
 		Material floor = Material.plastic(Color.WHITE);
 		floor.setRoughness(new Roughness(100, .01));
 		scene.add(new Plane(new Vector(0,0,0), new Vector(0,0,1), floor));

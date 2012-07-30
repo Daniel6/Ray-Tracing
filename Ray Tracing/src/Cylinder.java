@@ -3,7 +3,6 @@ public class Cylinder extends Entity {
 	Vector p1, p2;
 	double R;
 	private Material material;
-	private Scene scene;
 	public Cylinder(Vector p1, Vector p2, double r, Material material) {
 		super();
 		this.p1 = p1;
@@ -16,12 +15,6 @@ public class Cylinder extends Entity {
 	}
 	public void setMaterial(Material material) {
 		this.material = material;
-	}
-	public Scene getScene() {
-		return scene;
-	}
-	public void setScene(Scene scene) {
-		this.scene = scene;
 	}
 	@Override
 	public Intersection findIntersect(Ray r) {

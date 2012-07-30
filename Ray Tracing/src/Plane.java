@@ -3,14 +3,6 @@ public class Plane extends Entity {
 	Vector point;
 	Vector normal;
 	Material material;
-	Scene scene;
-	
-	public Scene getScene() {
-		return scene;
-	}
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
 	public Plane(Vector c, Vector n, Material material) {
 		point = c;
 		normal = n.norm();

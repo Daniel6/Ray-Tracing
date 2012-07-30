@@ -2,7 +2,6 @@ public class ParallelPiped extends Entity {
 	private Vector pmin, pmax;
 	private Vector nx, ny, nz;
 	private Material material;
-	private Scene scene;
 	public ParallelPiped(Vector pmin, Vector vx, Vector vy, Vector vz, Material material) {
 		super();
 		this.pmin = pmin;
@@ -17,12 +16,6 @@ public class ParallelPiped extends Entity {
 	}
 	public void setMaterial(Material material) {
 		this.material = material;
-	}
-	public Scene getScene() {
-		return scene;
-	}
-	public void setScene(Scene scene) {
-		this.scene = scene;
 	}
 	@Override
 	public Intersection findIntersect(Ray r) throws Exception {

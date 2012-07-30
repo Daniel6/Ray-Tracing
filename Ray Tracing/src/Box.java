@@ -2,7 +2,6 @@ public class Box extends Entity {
 	private Vector vmin;
 	private Vector vmax;
 	private Material material;
-	private Scene scene;
 	private final Vector negX = new Vector(-1, 0, 0);
 	private final Vector posX = new Vector(+1, 0, 0);
 	private final Vector negY = new Vector( 0,-1, 0);
@@ -20,12 +19,6 @@ public class Box extends Entity {
 	}
 	public void setMaterial(Material material) {
 		this.material = material;
-	}
-	public Scene getScene() {
-		return scene;
-	}
-	public void setScene(Scene scene) {
-		this.scene = scene;
 	}
 	double minPos(double x, double y) {
 		return x < y ? x > 0 ? x : y : y > 0 ? y : x;

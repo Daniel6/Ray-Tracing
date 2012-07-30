@@ -3,22 +3,11 @@ public class Sphere extends Entity {
 	Vector center;
 	double radius;
 	Material material;
-	Scene scene;
-
-	public Scene getScene() {
-		return scene;
-	}
-
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
-
 	public Sphere(Vector c, double r, Material m) {
 		center = c;
 		radius = r;
 		material = m;
 	}
-
 	public Intersection findIntersect(Ray r) {
 		double a = r.getDirection().dot(r.getDirection());
 		double b = 2 * r.getDirection().dot(r.getOrigin().sub(center));
@@ -43,29 +32,22 @@ public class Sphere extends Entity {
 		}
 		return null;
 	}
-
 	public Vector getCenter() {
 		return center;
 	}
-
 	public void setCenter(Vector center) {
 		this.center = center;
 	}
-
 	public double getRadius() {
 		return radius;
 	}
-
 	public void setRadius(double radius) {
 		this.radius = radius;
 	}
-
 	public Material getMaterial() {
 		return material;
 	}
-
 	public void setMaterial(Material material) {
 		this.material = material;
 	}
-
 }
