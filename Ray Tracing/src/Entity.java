@@ -1,7 +1,4 @@
 public abstract class Entity {
-	public class Disc {
-
-	}
 	private Scene scene;
 	public Scene getScene() {
 		return scene;

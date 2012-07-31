@@ -41,7 +41,7 @@ public class Scene {
 
 	public Color getColor(Intersection i) throws Exception {
 		if (i == null) {
-			return Color.BLACK;
+			return Color.WHITE;
 		}
 		Color rtn = Color.BLACK;
 		Material material = i.getMaterial();
