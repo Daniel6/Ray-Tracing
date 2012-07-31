@@ -14,9 +14,9 @@ public class Main {
 		scene.add(new Sphere(new Vector(0,-.5,0.1), 0.1, Material.plastic(Color.BLUE)));
 		scene.add(new Sphere(new Vector(-.5,0,0.1), 0.1, Material.plastic(Color.YELLOW)));
 		scene.add(new ParallelPiped(new Vector(0.3, 0.3, 0), new Vector(0.3, 0, 0), new Vector(0, 0.5, 0), new Vector(0, 0, 0.1), Material.plastic(Color.MAGENTA.mult(.5))));
-		scene.add(new Cylinder(new Vector(0, 0, .1), new Vector(0, 0, .4), .1, Material.metal(Color.WHITE)));
+		scene.add(new Cylinder(new Vector(0, 0, .1), new Vector(.2, .2, .1), .1, Material.metal(Color.WHITE)));
 		scene.add(new Sphere(new Vector(0,0,.1), 0.1, Material.metal(Color.WHITE)));
-		scene.add(new Sphere(new Vector(0,0,.4), 0.1, Material.metal(Color.WHITE)));
+		scene.add(new Disc(new Vector(.2,.2,.1), new Vector(1,1,0), 0.1, Material.metal(Color.WHITE)));
 		Material floor = Material.plastic(Color.WHITE);
 		floor.setRoughness(new Roughness(100, .01));
 		scene.add(new Plane(new Vector(0,0,0), new Vector(0,0,1), floor));
