@@ -4,7 +4,7 @@ public class Main {
 		Vector viewpoint = new Vector(4,2,2);
 		Vector lookat = new Vector(0, 0, .1);
 		Camera camera = new Camera(viewpoint, lookat, 600, 800);
-		camera.setAntialias(3);
+		camera.setAntialias(0);
 		camera.setZoom(4);
 		Scene scene = new Scene();
 		Material globe = Material.metal(Color.WHITE);
@@ -14,7 +14,7 @@ public class Main {
 		scene.add(new Sphere(new Vector(0,-.5,0.1), 0.1, Material.plastic(Color.BLUE)));
 		scene.add(new Sphere(new Vector(-.5,0,0.1), 0.1, Material.plastic(Color.YELLOW)));
 		scene.add(new ParallelPiped(new Vector(0.3, 0.3, 0), new Vector(0.3, 0, 0), new Vector(0, 0.5, 0), new Vector(0, 0, 0.1), Material.plastic(Color.MAGENTA.mult(.5))));
-		scene.add(new SmoothCylinder(new Vector(.1, -.1, .1), new Vector(-.1, .1, .1), .1, Material.metal(Color.WHITE)));
+		scene.add(new SmoothCylinder(new Vector(.1, -.1, .1), new Vector(-.1, .1, .1), .1, Material.plastic(Color.GRAY)));
 		Material floor = Material.plastic(Color.WHITE);
 		floor.setRoughness(new Roughness(100, .01));
 		scene.add(new Plane(new Vector(0,0,0), new Vector(0,0,1), floor));
